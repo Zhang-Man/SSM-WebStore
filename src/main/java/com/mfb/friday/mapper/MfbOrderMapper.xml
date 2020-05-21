@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mfb.friday.mapper.MfbOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mfb.friday.pojo.MfbOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+    <result column="shipping_id" property="shippingId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="update_time" property="updateTime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="payment_time" property="paymentTime" jdbcType="DATE" />
+    <result column="send_time" property="sendTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="close_time" property="closeTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, order_id, payment, payment_type, shipping_id, create_time, update_time, 
+    status, payment_time, send_time, end_time, close_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mfb.friday.pojo.MfbOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mfb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mfb_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from mfb_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mfb_order
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mfb_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mfb.friday.pojo.MfbOrderExample" >
+    delete from mfb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mfb.friday.pojo.MfbOrder" >
+    insert into mfb_order (id, user_id, order_id, 
+      payment, payment_type, shipping_id, 
+      create_time, update_time, status, 
+      payment_time, send_time, end_time, 
+      close_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
+      #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{shippingId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{updateTime,jdbcType=DATE}, #{status,jdbcType=INTEGER}, 
+      #{paymentTime,jdbcType=DATE}, #{sendTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{closeTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfb.friday.pojo.MfbOrder" >
+    insert into mfb_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="shippingId != null" >
+        shipping_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="closeTime != null" >
+        close_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="shippingId != null" >
+        #{shippingId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=DATE},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mfb.friday.pojo.MfbOrderExample" resultType="java.lang.Integer" >
+    select count(*) from mfb_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mfb_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.payment != null" >
+        payment = #{record.payment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentType != null" >
+        payment_type = #{record.paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.shippingId != null" >
+        shipping_id = #{record.shippingId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.paymentTime != null" >
+        payment_time = #{record.paymentTime,jdbcType=DATE},
+      </if>
+      <if test="record.sendTime != null" >
+        send_time = #{record.sendTime,jdbcType=DATE},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=DATE},
+      </if>
+      <if test="record.closeTime != null" >
+        close_time = #{record.closeTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mfb_order
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      payment = #{record.payment,jdbcType=DECIMAL},
+      payment_type = #{record.paymentType,jdbcType=INTEGER},
+      shipping_id = #{record.shippingId,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=DATE},
+      update_time = #{record.updateTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER},
+      payment_time = #{record.paymentTime,jdbcType=DATE},
+      send_time = #{record.sendTime,jdbcType=DATE},
+      end_time = #{record.endTime,jdbcType=DATE},
+      close_time = #{record.closeTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfb.friday.pojo.MfbOrder" >
+    update mfb_order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="shippingId != null" >
+        shipping_id = #{shippingId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=DATE},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="closeTime != null" >
+        close_time = #{closeTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfb.friday.pojo.MfbOrder" >
+    update mfb_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      payment = #{payment,jdbcType=DECIMAL},
+      payment_type = #{paymentType,jdbcType=INTEGER},
+      shipping_id = #{shippingId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      update_time = #{updateTime,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER},
+      payment_time = #{paymentTime,jdbcType=DATE},
+      send_time = #{sendTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      close_time = #{closeTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllOrder" resultMap="BaseResultMap">select * from mfb_order; </select>
+</mapper>
